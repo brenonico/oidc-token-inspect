@@ -8,7 +8,7 @@ If you ask "where does the token live in my system?" the answer dictates where t
 
 | Token lives in | Capture happens in | Adapter |
 |---|---|---|
-| Browser storage or memory | The browser | `ClientObserver` (`@token-inspect/browser`) |
+| Browser storage or memory | The browser | `ClientObserver` (`@oidc-token-inspect/browser`) |
 | Server memory or session store | The server | `ServerMiddleware` (`TokenInspect.AspNetCore`) |
 | Anywhere the host calls `Record(...)` | Wherever the host puts the call | `ExplicitRecorder` (`TokenInspect`) |
 
@@ -95,7 +95,7 @@ interface TraceSource {
 }
 ```
 
-Three implementations ship in `@token-inspect/core`:
+Three implementations ship in `@oidc-token-inspect/core`:
 
 | Implementation | Use when |
 |---|---|
@@ -103,7 +103,7 @@ Three implementations ship in `@token-inspect/core`:
 | `LiveTraceSource` | Browser-observed traces written by `ClientObserver` |
 | `CompositeTraceSource(sources[])` | Both at once, merged by `correlationId` |
 
-`init()` in `@token-inspect/browser` constructs the right source from your config: `egress.endpoint` only ⇒ HTTP; `capabilities.clientObserver: true` only ⇒ live; both ⇒ composite.
+`init()` in `@oidc-token-inspect/browser` constructs the right source from your config: `egress.endpoint` only ⇒ HTTP; `capabilities.clientObserver: true` only ⇒ live; both ⇒ composite.
 
 ## Merge by correlation id (the hybrid case)
 
@@ -129,7 +129,7 @@ flowchart LR
     VC --> Decode["Decode (Jwt) / Reveal (Opaque)"]
 ```
 
-The panel is a normal React component (`@token-inspect/react`). The browser drop-in (`@token-inspect/browser`) mounts it inside a closed Shadow DOM with the panel's own stylesheet inlined, so it is isolated from the host page.
+The panel is a normal React component (`@oidc-token-inspect/react`). The browser drop-in (`@oidc-token-inspect/browser`) mounts it inside a closed Shadow DOM with the panel's own stylesheet inlined, so it is isolated from the host page.
 
 ## What does not exist by design
 

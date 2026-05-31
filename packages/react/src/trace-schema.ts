@@ -1,1 +1,1 @@
-export * from "@token-inspect/core";
+export * from "@oidc-token-inspect/core";

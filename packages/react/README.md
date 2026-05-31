@@ -1,20 +1,20 @@
-# @token-inspect/react
+# @oidc-token-inspect/react
 
 The React components for the [Token Inspect](https://github.com/brenonico/oidc-token-inspect) plugin: a DevTools-style slide-over panel with a sequence diagram, variable cards with JWT decode and a theme toggle.
 
-Use this directly if you want to mount the panel yourself inside your React tree. For the easier path (drop-in self-mounting via Shadow DOM), use [`@token-inspect/browser`](https://www.npmjs.com/package/@token-inspect/browser).
+Use this directly if you want to mount the panel yourself inside your React tree. For the easier path (drop-in self-mounting via Shadow DOM), use [`@oidc-token-inspect/browser`](https://www.npmjs.com/package/@oidc-token-inspect/browser).
 
 ## Install
 
 ```bash
-npm install @token-inspect/react @token-inspect/core
+npm install @oidc-token-inspect/react @oidc-token-inspect/core
 ```
 
 ## Basic use
 
 ```tsx
-import { TokenInspectPanel } from '@token-inspect/react';
-import { HttpTraceSource } from '@token-inspect/core';
+import { TokenInspectPanel } from '@oidc-token-inspect/react';
+import { HttpTraceSource } from '@oidc-token-inspect/core';
 
 const httpClient = {
   get: (path: string) =>

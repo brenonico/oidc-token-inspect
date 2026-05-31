@@ -7,7 +7,7 @@ This guide walks you through installing the plugin, picking the scenario that ma
 ### From npm
 
 ```bash
-npm install @token-inspect/browser
+npm install @oidc-token-inspect/browser
 ```
 
 The package brings its own React/ReactDOM bundled for the standalone path, so it works in React apps and in non-React apps alike.
@@ -33,7 +33,7 @@ Token Inspect captures the flow at the point where the token is observable in yo
 Your single-page app does PKCE in the browser, exchanges the code, and stores the tokens in `localStorage` or `sessionStorage`. The `ClientObserver` wraps `fetch` and `XMLHttpRequest`, reads tokens directly from storage, and reconstructs the login, refresh, and API-call flows.
 
 ```ts
-import { init } from '@token-inspect/browser';
+import { init } from '@oidc-token-inspect/browser';
 
 init({
   enabled: true,
@@ -50,7 +50,7 @@ Reload the app, sign in normally, and click the floating button bottom-right.
 Your tokens never reach the browser. The frontend talks to a Backend-for-Frontend that holds the session server-side. To inspect, expose a JSON endpoint on your BFF that returns the recorded trace (see [architecture.md](architecture.md) for the schema), and point the panel at it.
 
 ```ts
-import { init } from '@token-inspect/browser';
+import { init } from '@oidc-token-inspect/browser';
 
 init({
   enabled: true,
@@ -133,7 +133,7 @@ The panel is read-only. It does not replay, alter, or block anything. The interc
 The safest invariant of the plugin is the inert default. Verify it once:
 
 ```ts
-import { init, selfTest } from '@token-inspect/browser';
+import { init, selfTest } from '@oidc-token-inspect/browser';
 
 init({});  // empty config → enabled: false
 console.log(window.fetch === fetch);  // true, fetch not patched
@@ -141,7 +141,7 @@ console.log(document.querySelector('[data-ti-root]'));  // null, no panel mounte
 
 init({ enabled: true, ackExposesTokens: true, preset: 'public-client-spa' });
 // ... use it ...
-import { teardown } from '@token-inspect/browser';
+import { teardown } from '@oidc-token-inspect/browser';
 teardown();
 console.log(selfTest());  // { fetchRestored: true, xhrRestored: true, noResidualListeners: true }
 ```

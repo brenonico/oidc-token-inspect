@@ -11,7 +11,7 @@ Works in three shapes:
 All three paths render the same panel and consume the same schema.
 
 ```ts
-import { init } from '@token-inspect/browser';
+import { init } from '@oidc-token-inspect/browser';
 
 init({
   enabled: true,
@@ -40,9 +40,9 @@ OIDC and OAuth are easier taught with examples than with prose. A new developer 
 
 | Package | Language | Purpose |
 |---|---|---|
-| [`@token-inspect/core`](packages/core) | TypeScript | Schema, `TraceSource` interface and built-in implementations, JWT decode |
-| [`@token-inspect/react`](packages/react) | React | The panel itself, sequence diagram, variable cards |
-| [`@token-inspect/browser`](packages/browser) | TypeScript | Drop-in `init()` plus UMD self-mount in Shadow DOM, client observer, correlation header |
+| [`@oidc-token-inspect/core`](packages/core) | TypeScript | Schema, `TraceSource` interface and built-in implementations, JWT decode |
+| [`@oidc-token-inspect/react`](packages/react) | React | The panel itself, sequence diagram, variable cards |
+| [`@oidc-token-inspect/browser`](packages/browser) | TypeScript | Drop-in `init()` plus UMD self-mount in Shadow DOM, client observer, correlation header |
 | [`TokenInspect`](dotnet/src/TokenInspect) | C# | `IFlowRecorder`, `ITraceStore`, egress endpoint with host-provided `Authorize` |
 | [`TokenInspect.AspNetCore`](dotnet/src/TokenInspect.AspNetCore) | C# | Drop-in middleware that records server-side hops; dev endpoint loopback-only by default |
 
@@ -59,7 +59,7 @@ OIDC and OAuth are easier taught with examples than with prose. A new developer 
 # JavaScript workspaces
 npm install
 npm test
-npm run build --workspace=@token-inspect/browser
+npm run build --workspace=@oidc-token-inspect/browser
 
 # .NET solution
 cd dotnet

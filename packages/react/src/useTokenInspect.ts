@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { FlowRun, TraceJournal, TraceSource } from "@token-inspect/core";
+import type { FlowRun, TraceJournal, TraceSource } from "@oidc-token-inspect/core";
 
 /**
  * Backward-compatible client shape. The panel/AppShell historically passed a

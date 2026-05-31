@@ -13,7 +13,7 @@
   ],
   "scripts": {
     "test": "npm run test --workspaces --if-present",
-    "build": "npm run build --workspace=@token-inspect/browser --if-present"
+    "build": "npm run build --workspace=@oidc-token-inspect/browser --if-present"
   },
   "engines": {
     "node": ">=22 <23"

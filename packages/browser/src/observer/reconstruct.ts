@@ -1,5 +1,5 @@
-import type { FlowRun, LiveTraceSource, TraceStep, TraceVariable } from "@token-inspect/core";
-import { decodeJwt } from "@token-inspect/core";
+import type { FlowRun, LiveTraceSource, TraceStep, TraceVariable } from "@oidc-token-inspect/core";
+import { decodeJwt } from "@oidc-token-inspect/core";
 import type { TokenInspectConfig } from "../config";
 import type { NetEvent } from "./types";
 import type { RedirectCallback } from "./redirect";

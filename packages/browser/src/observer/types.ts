@@ -1,7 +1,7 @@
 /**
  * Local, host-agnostic event shapes emitted by the network wraps (fetch/XHR).
  *
- * These are intentionally NOT exported from `@token-inspect/core`: they describe
+ * These are intentionally NOT exported from `@oidc-token-inspect/core`: they describe
  * only the *metadata* the observer is allowed to read without consuming any
  * request/response body or stream. No Keycloak/Redis/host types leak in here.
  */

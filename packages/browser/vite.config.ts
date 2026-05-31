@@ -10,9 +10,9 @@ export default defineConfig({
   resolve: {
     alias: {
       // ORDER matters: core must resolve before react, because the react
-      // package's source imports `@token-inspect/core`.
-      "@token-inspect/core": fileURLToPath(new URL("../core/src", import.meta.url)),
-      "@token-inspect/react": fileURLToPath(new URL("../react/src", import.meta.url)),
+      // package's source imports `@oidc-token-inspect/core`.
+      "@oidc-token-inspect/core": fileURLToPath(new URL("../core/src", import.meta.url)),
+      "@oidc-token-inspect/react": fileURLToPath(new URL("../react/src", import.meta.url)),
     },
   },
   build: {

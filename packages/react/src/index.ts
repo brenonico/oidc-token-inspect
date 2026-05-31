@@ -8,7 +8,7 @@ export type { UseTokenInspectOptions, UseTokenInspectResult, TokenInspectClient 
 export { useTheme } from "./useTheme";
 export type { ThemeMode, UseThemeResult } from "./useTheme";
 
-// Schema types (sourced transitively from @token-inspect/core)
+// Schema types (sourced transitively from @oidc-token-inspect/core)
 export type {
   VariableKind,
   FlowStatus,
@@ -18,9 +18,9 @@ export type {
   TraceJournal,
 } from "./trace-schema";
 
-// Source API (re-exported from @token-inspect/core)
-export { HttpTraceSource, LiveTraceSource, CompositeTraceSource } from "@token-inspect/core";
-export type { TraceSource } from "@token-inspect/core";
+// Source API (re-exported from @oidc-token-inspect/core)
+export { HttpTraceSource, LiveTraceSource, CompositeTraceSource } from "@oidc-token-inspect/core";
+export type { TraceSource } from "@oidc-token-inspect/core";
 
 // Utilities
 export { decodeJwt, shortPreview } from "./decode";

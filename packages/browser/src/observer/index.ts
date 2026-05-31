@@ -1,4 +1,4 @@
-import type { LiveTraceSource } from "@token-inspect/core";
+import type { LiveTraceSource } from "@oidc-token-inspect/core";
 import type { TokenInspectConfig } from "../config";
 import { installFetchWrap } from "./fetch";
 import { installXhrWrap, type XhrInjector } from "./xhr";

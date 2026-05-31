@@ -1,13 +1,13 @@
 import { createElement } from "react";
 import { createRoot, type Root } from "react-dom/client";
-import { TokenInspectPanel } from "@token-inspect/react";
-import type { TraceSource } from "@token-inspect/core";
+import { TokenInspectPanel } from "@oidc-token-inspect/react";
+import type { TraceSource } from "@oidc-token-inspect/core";
 import type { TokenInspectConfig } from "./config";
 // The panel's own stylesheet, imported as a raw string (not injected into
 // document.head). With `?inline`, Vite/Rollup bundles the CSS text and hands it
 // back as the default export, letting us inject it into a closed Shadow DOM
 // where document.head styles would never reach. Imported via a relative path to
-// the sibling package source (the bare `@token-inspect/react` alias only maps
+// the sibling package source (the bare `@oidc-token-inspect/react` alias only maps
 // the package root, not subpaths). We do NOT modify styles.css.
 import panelCss from "../../react/src/styles.css?inline";
 

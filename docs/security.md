@@ -116,7 +116,7 @@ The plugin handles its end; the host has its share:
 If you want the plugin out completely:
 
 ```ts
-import { teardown } from '@token-inspect/browser';
+import { teardown } from '@oidc-token-inspect/browser';
 teardown();
 ```
 

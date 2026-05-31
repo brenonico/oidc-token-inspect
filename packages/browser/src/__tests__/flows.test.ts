@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { LiveTraceSource } from "@token-inspect/core";
-import type { FlowRun, TraceJournal } from "@token-inspect/core";
+import { LiveTraceSource } from "@oidc-token-inspect/core";
+import type { FlowRun, TraceJournal } from "@oidc-token-inspect/core";
 import { installObserver } from "../observer";
 import type { TokenInspectConfig } from "../config";
 import { defaultConfig } from "../config";

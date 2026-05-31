@@ -1,4 +1,4 @@
-# @token-inspect/browser
+# @oidc-token-inspect/browser
 
 The drop-in path for the [Token Inspect](https://github.com/brenonico/oidc-token-inspect) plugin. One `init({...})` call mounts the panel inside a closed Shadow DOM. Inert by default; production hard-stop without explicit acknowledgement.
 
@@ -7,11 +7,11 @@ Use this if you want the panel in any web app without wiring React yourself. Wor
 ## Install (npm)
 
 ```bash
-npm install @token-inspect/browser
+npm install @oidc-token-inspect/browser
 ```
 
 ```ts
-import { init } from '@token-inspect/browser';
+import { init } from '@oidc-token-inspect/browser';
 
 init({
   enabled: true,

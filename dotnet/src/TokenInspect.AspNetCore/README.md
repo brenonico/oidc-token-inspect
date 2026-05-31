@@ -30,7 +30,7 @@ app.UseTokenInspect();        // records on every request
 app.MapTokenInspectDev();     // GET /__ti/trace?id=... (gated by Authorize)
 ```
 
-In the browser, point the [`@token-inspect/browser`](https://www.npmjs.com/package/@token-inspect/browser) plugin at the dev endpoint:
+In the browser, point the [`@oidc-token-inspect/browser`](https://www.npmjs.com/package/@oidc-token-inspect/browser) plugin at the dev endpoint:
 
 ```ts
 init({

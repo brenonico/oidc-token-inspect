@@ -1,6 +1,6 @@
 import { defaultConfig, type TokenInspectConfig } from "./config";
 import { applyPreset, type DeepPartial } from "./presets";
-import { CompositeTraceSource, HttpTraceSource, LiveTraceSource, type TraceJournal, type TraceSource } from "@token-inspect/core";
+import { CompositeTraceSource, HttpTraceSource, LiveTraceSource, type TraceJournal, type TraceSource } from "@oidc-token-inspect/core";
 import { installPanel } from "./install";
 import { installObserver } from "./observer";
 

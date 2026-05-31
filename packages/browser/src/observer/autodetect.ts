@@ -14,7 +14,7 @@
  *     reads the Storage object handed to it),
  *   - map a request host to a configured lane label.
  */
-import { decodeJwt } from "@token-inspect/core";
+import { decodeJwt } from "@oidc-token-inspect/core";
 import type { TokenInspectConfig } from "../config";
 import type { NetEvent } from "./types";
 

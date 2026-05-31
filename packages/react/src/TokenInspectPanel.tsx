@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import "./styles.css";
-import { HttpTraceSource } from "@token-inspect/core";
-import type { HttpClient, TraceSource, TraceJournal } from "@token-inspect/core";
+import { HttpTraceSource } from "@oidc-token-inspect/core";
+import type { HttpClient, TraceSource, TraceJournal } from "@oidc-token-inspect/core";
 import type { FlowRun, TraceVariable } from "./trace-schema";
 import { useTokenInspect } from "./useTokenInspect";
 import { useTheme } from "./useTheme";

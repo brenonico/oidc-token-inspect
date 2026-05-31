@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { LiveTraceSource } from "@token-inspect/core";
+import { LiveTraceSource } from "@oidc-token-inspect/core";
 import { installObserver } from "../observer";
 import {
   generateTraceparent,

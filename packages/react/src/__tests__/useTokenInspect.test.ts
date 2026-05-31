@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { renderHook, waitFor, act } from "@testing-library/react";
 import { useTokenInspect } from "../useTokenInspect";
-import type { FlowRun, TraceJournal, TraceSource } from "@token-inspect/core";
+import type { FlowRun, TraceJournal, TraceSource } from "@oidc-token-inspect/core";
 
 function run(id: string): FlowRun {
   return {

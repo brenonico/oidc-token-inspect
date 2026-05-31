@@ -1,4 +1,4 @@
-# @token-inspect/core
+# @oidc-token-inspect/core
 
 Schema types, `TraceSource` interface and built-in `HttpTraceSource`, `LiveTraceSource`, `CompositeTraceSource` implementations for the [Token Inspect](https://github.com/brenonico/oidc-token-inspect) plugin. Also includes `decodeJwt` and `shortPreview`.
 
@@ -7,7 +7,7 @@ Use this directly if you are integrating the panel without the drop-in browser b
 ## Install
 
 ```bash
-npm install @token-inspect/core
+npm install @oidc-token-inspect/core
 ```
 
 ## Basic use
@@ -19,7 +19,7 @@ import {
   CompositeTraceSource,
   decodeJwt,
   type TraceJournal,
-} from '@token-inspect/core';
+} from '@oidc-token-inspect/core';
 
 const httpClient = {
   get: <T = TraceJournal>(path: string): Promise<T> =>

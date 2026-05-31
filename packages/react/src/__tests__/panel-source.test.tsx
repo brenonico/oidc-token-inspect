@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { TokenInspectPanel } from "../TokenInspectPanel";
-import type { TraceJournal, TraceSource } from "@token-inspect/core";
+import type { TraceJournal, TraceSource } from "@oidc-token-inspect/core";
 
 const SAMPLE_JOURNAL: TraceJournal = {
   sessionId: "sess-src",
