@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 namespace TokenInspect;
 public static class ServiceCollectionExtensions
 {
@@ -12,6 +13,26 @@ public static class ServiceCollectionExtensions
             services.AddSingleton<IFlowRecorder, FlowRecorder>();   // requires ITraceStore (host registers)
         else
             services.AddSingleton<IFlowRecorder, NullFlowRecorder>(); // "closes the door"
+        services.WireInspectFlow();
         return services;
     }
+
+    // Resolves the registered recorder once at host startup and publishes it to InspectFlowConfig so
+    // the ambient InspectFlow API works without the host injecting IFlowRecorder anywhere itself.
+    private static IServiceCollection WireInspectFlow(this IServiceCollection services)
+    {
+        services.AddSingleton<IHostedService, InspectFlowInitializer>();
+        return services;
+    }
+}
+
+internal sealed class InspectFlowInitializer(IServiceProvider services) : IHostedService
+{
+    public Task StartAsync(CancellationToken cancellationToken)
+    {
+        InspectFlowConfig.Recorder = services.GetService<IFlowRecorder>();
+        return Task.CompletedTask;
+    }
+
+    public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
 }
