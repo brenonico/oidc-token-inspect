@@ -16,6 +16,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `TokenInspect.AspNetCore`: `WithInspectFlow` endpoint metadata and middleware. Endpoints declare a flow via `.WithInspectFlow(...)`; `UseInspectFlow()` opens an ambient `InspectFlow` scope around each request, completing on 2xx/3xx and failing on 4xx/5xx or exceptions.
 - `PersistentTraceSource` in `@oidc-token-inspect/core`: a `TraceSource` backed by `localStorage` that restores the journal on construction so it survives navigations within the same origin. Tokens are redacted from the persisted snapshot by default (opt in with `persistTokens: true`); a TTL and a ring-buffer size cap bound staleness and growth.
 
+### Changed
+
+- Docs: add `docs/instrumentation.md` (three instrumentation levels), `docs/journey-continuity.md` (persistence and anonymous-to-authenticated correlation), and `docs/migration-0.1-to-0.2.md`; document the lane bridge in `docs/architecture.md`, persistence safety in `docs/security.md`, and the v0.2.0 surface in `README.md`.
+
 ## [0.1.0]
 
 Initial public release.

@@ -131,6 +131,36 @@ flowchart LR
 
 The panel is a normal React component (`@oidc-token-inspect/react`). The browser drop-in (`@oidc-token-inspect/browser`) mounts it inside a closed Shadow DOM with the panel's own stylesheet inlined, so it is isolated from the host page.
 
+## Anonymous to authenticated lane bridge
+
+A journey that starts before login is split across an IdP redirect: an anonymous run on the landing page, a gap while the IdP authenticates the user, and an authenticated run after the callback. The bridge joins these into one `FlowRun` so the panel renders the pre-login and post-login lanes as a single story.
+
+The `anonymousRunId` carries the join across the gap:
+
+1. **Created in the SPA.** With `anonymousRunId: 'auto'`, `init()` generates a UUID v4 (or reads the existing one) on first visit.
+2. **Persisted via storage.** The id lives in same-origin `localStorage`, alongside the persisted journal (`persist: true`), so it survives reloads.
+3. **Sent through `state`.** `getLoginUrl(baseUrl)` appends `tii_anon=<id>` to the login URL; the host round-trips it through the OAuth `state` parameter on the authorize request.
+4. **Adopted on `/callback`.** After the code exchange, the host calls `IFlowRecorder.AdoptAnonymousRun(anonymousRunId, sessionId)`, which re-keys the in-flight run under the authenticated session id via `ITraceStore.RekeyRunAsync`. Steps recorded after adoption persist under the session id, so the journal the SPA fetches after login carries the pre-login steps too.
+
+```
+  anonymous SPA            IdP redirect (gap)        callback              authenticated SPA
+  ------------             ------------------        --------              -----------------
+  init({ anonymousRunId })                                                 journal restored from
+  run started, id stored      state=...&tii_anon=ID                        localStorage, same id
+        |                            |                     |                        |
+        |  getLoginUrl() ----------> |                     |                        |
+        |   (id in state)            |   (IdP: not         |                        |
+        |                            |    instrumented)    |                        |
+        |                            | -- code + state -->  AdoptAnonymousRun(      |
+        |                            |                       ID, sessionId)          |
+        |                            |                          |                    |
+        |                            |                     re-key run ID -> sessionId|
+        |                            |                          |                    |
+        x============================ one continuous FlowRun ====================>   |
+```
+
+The IdP sits in the gap and is never instrumented; the bridge reconnects the lanes on either side of it without observing what happened inside it. See [journey-continuity.md](journey-continuity.md) for the configuration and the callback handler.
+
 ## What does not exist by design
 
 - No replay. The panel cannot re-run a request.

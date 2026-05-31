@@ -100,6 +100,17 @@ The panel mounts in a closed Shadow DOM with the panel's stylesheet inlined. Thi
 
 If your page already has an XSS, the plugin's visibility does not change the threat. If your page does not have an XSS, the panel cannot be read by a script you did not invite.
 
+### 11. Persistence safety
+
+v0.2.0 can mirror the journal to Web Storage so a journey survives a navigation or an IdP redirect (`PersistentTraceSource`, `persist: true`). Persistence widens what is written to disk, so it carries its own controls.
+
+- **localStorage scope: same-origin only.** The persisted journal and the anonymous run id are readable only by pages on the same origin. Web Storage is partitioned by origin by the browser; the plugin adds no cross-origin path and transmits nothing off-origin.
+- **Token redaction by default.** Before writing, the snapshot is passed through a redactor that replaces any JWT-shaped value (and any variable whose kind is `token`) with `[redacted]`. The heuristic catches producer-emitted tokens; the explicit `token` kind catches the rest. The stored record is the flow structure, not the secrets. Persisting raw tokens is opt-in (`persistTokens: true`) and is meant only for a throwaway dev box.
+- **TTL: default 24h, enforced on read and write.** Entries carry a time-to-live (default 1440 minutes). Expired runs are filtered out both when the journal is restored on construction and when it is read back, so stale data cannot resurface. Shorten it with `ttlMinutes`.
+- **Ring-buffer cap.** A size cap (default 500 KB) evicts the oldest run whenever the serialized snapshot would exceed it, so the persisted journal cannot grow without bound and cannot exhaust the storage quota.
+- **Clear journal.** `clear()` removes the persisted snapshot from storage and empties the in-memory mirror; the panel exposes this as a user action, so the owner can wipe the record on demand.
+- **The host must opt in.** `persist: true` is not the plugin's default. With the inert default config nothing is written to storage. Persistence happens only when the host asks for it, on a host the two-step opt-in already allows.
+
 ## What the host must do
 
 The plugin handles its end; the host has its share:
