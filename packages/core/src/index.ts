@@ -15,6 +15,9 @@ export type { HttpClient } from "./HttpTraceSource";
 
 export { LiveTraceSource } from "./LiveTraceSource";
 
+export { PersistentTraceSource } from "./PersistentTraceSource";
+export type { PersistentTraceSourceOptions } from "./PersistentTraceSource";
+
 export { CompositeTraceSource, mergeByCorrelation } from "./CompositeTraceSource";
 
 export { decodeJwt, shortPreview } from "./decode";
