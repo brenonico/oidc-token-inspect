@@ -1,11 +1,40 @@
 {
   "name": "@token-inspect/react",
   "version": "0.1.0",
-  "private": false,
+  "description": "React components for the Token Inspect plugin: DevTools-style panel with sequence diagram, variable cards, decode and theme.",
+  "keywords": [
+    "oidc",
+    "oauth",
+    "jwt",
+    "devtools",
+    "react",
+    "token",
+    "auth"
+  ],
+  "license": "MIT",
+  "author": "Breno Nico",
+  "homepage": "https://github.com/brenonico/oidc-token-inspect#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/brenonico/oidc-token-inspect.git",
+    "directory": "packages/react"
+  },
+  "bugs": {
+    "url": "https://github.com/brenonico/oidc-token-inspect/issues"
+  },
   "type": "module",
   "main": "src/index.ts",
+  "types": "src/index.ts",
+  "files": [
+    "src",
+    "README.md",
+    "!src/__tests__"
+  ],
+  "scripts": {
+    "test": "vitest run"
+  },
   "dependencies": {
-    "@token-inspect/core": "*"
+    "@token-inspect/core": "^0.1.0"
   },
   "peerDependencies": {
     "react": ">=18",
@@ -24,10 +53,10 @@
     "typescript": "^5.6.3",
     "vitest": "^2.0.0"
   },
-  "scripts": {
-    "test": "vitest run"
-  },
   "engines": {
-    "node": ">=22 <23"
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

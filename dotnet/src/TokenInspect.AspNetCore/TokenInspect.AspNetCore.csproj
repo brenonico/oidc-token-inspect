@@ -4,14 +4,34 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>TokenInspect.AspNetCore</RootNamespace>
+
+    <!-- NuGet metadata -->
     <PackageId>TokenInspect.AspNetCore</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>Breno Nico</Authors>
+    <Description>Drop-in ASP.NET Core middleware for the Token Inspect plugin: records incoming token validation, RBAC, and downstream calls per correlation id. Bounded ring with TTL, dev endpoint loopback-only by default, principal-derived Authorize delegate.</Description>
+    <PackageProjectUrl>https://github.com/brenonico/oidc-token-inspect</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/brenonico/oidc-token-inspect.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageTags>oidc;oauth;jwt;token;devtools;tracing;aspnetcore;middleware;auth</PackageTags>
+    <Copyright>Copyright (c) 2026 Breno Nico</Copyright>
     <IsPackable>true</IsPackable>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
+
   <ItemGroup>
     <!-- ASP.NET Core for HttpContext/middleware/IEndpointRouteBuilder; NO Redis/Keycloak/SessionManager -->
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
+
   <ItemGroup>
+    <!-- ProjectReference becomes a PackageReference dependency in the .nupkg automatically (SDK default). -->
     <ProjectReference Include="../TokenInspect/TokenInspect.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 </Project>

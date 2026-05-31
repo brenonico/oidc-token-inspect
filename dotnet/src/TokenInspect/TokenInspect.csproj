@@ -4,11 +4,29 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>TokenInspect</RootNamespace>
+
+    <!-- NuGet metadata -->
     <PackageId>TokenInspect</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>Breno Nico</Authors>
+    <Description>Core library for the Token Inspect plugin: IFlowRecorder, ITraceStore abstraction, and an Authorize-gated MapTokenInspect() egress endpoint. Architecture-agnostic; the host provides storage and identity check.</Description>
+    <PackageProjectUrl>https://github.com/brenonico/oidc-token-inspect</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/brenonico/oidc-token-inspect.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageTags>oidc;oauth;jwt;token;devtools;tracing;auth</PackageTags>
+    <Copyright>Copyright (c) 2026 Breno Nico</Copyright>
     <IsPackable>true</IsPackable>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
+
   <ItemGroup>
     <!-- ASP.NET Core for HttpContext/IEndpointRouteBuilder/IResult; NO Redis/Keycloak -->
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 </Project>

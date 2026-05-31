@@ -28,3 +28,6 @@ TestResults/
 .env
 .env.local
 *.local
+
+# Packed nupkg outputs
+artifacts/
