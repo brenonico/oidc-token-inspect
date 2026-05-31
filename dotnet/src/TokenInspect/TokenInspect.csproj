@@ -7,7 +7,7 @@
 
     <!-- NuGet metadata -->
     <PackageId>TokenInspect</PackageId>
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
     <Authors>Breno Nico</Authors>
     <Description>Core library for the Token Inspect plugin: IFlowRecorder, ITraceStore abstraction, and an Authorize-gated MapTokenInspect() egress endpoint. Architecture-agnostic; the host provides storage and identity check.</Description>
     <PackageProjectUrl>https://github.com/brenonico/oidc-token-inspect</PackageProjectUrl>

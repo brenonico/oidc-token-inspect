@@ -7,7 +7,7 @@
 
     <!-- NuGet metadata -->
     <PackageId>TokenInspect.AspNetCore</PackageId>
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
     <Authors>Breno Nico</Authors>
     <Description>Drop-in ASP.NET Core middleware for the Token Inspect plugin: records incoming token validation, RBAC, and downstream calls per correlation id. Bounded ring with TTL, dev endpoint loopback-only by default, principal-derived Authorize delegate.</Description>
     <PackageProjectUrl>https://github.com/brenonico/oidc-token-inspect</PackageProjectUrl>

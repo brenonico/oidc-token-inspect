@@ -1,6 +1,6 @@
 {
   "name": "@oidc-token-inspect/react",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "React components for the Token Inspect plugin: DevTools-style panel with sequence diagram, variable cards, decode and theme.",
   "keywords": [
     "oidc",
@@ -34,7 +34,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@oidc-token-inspect/core": "^0.1.0"
+    "@oidc-token-inspect/core": "^0.2.0"
   },
   "peerDependencies": {
     "react": ">=18",

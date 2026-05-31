@@ -1,6 +1,6 @@
 {
   "name": "@oidc-token-inspect/core",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Core types, TraceSource interface and built-in HTTP/Live/Composite implementations for the Token Inspect plugin. Includes JWT decode.",
   "keywords": [
     "oidc",
