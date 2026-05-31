@@ -19,6 +19,15 @@ export interface TokenInspectConfig {
   preset?: "public-client-spa" | "bff-sessionmanager" | "api-validates-token";
   /** Optional label shown in the panel toolbar (e.g., "customer", "partner"). */
   app?: string;
+  /**
+   * Anonymous (pre-login) run correlation. `"auto"` generates or reads a UUID v4
+   * from Web Storage and exposes it via the controller's `getLoginUrl` so the
+   * host can round-trip it through the OAuth `state` parameter and stitch the
+   * pre-login run to the authenticated one. A literal string pins a specific id.
+   */
+  anonymousRunId?: "auto" | string;
+  /** Mirror the journal to Web Storage so it (and the anonymous id) survive navigations. */
+  persist?: boolean;
 }
 
 export const defaultConfig: TokenInspectConfig = {

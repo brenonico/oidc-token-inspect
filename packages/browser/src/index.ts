@@ -3,10 +3,27 @@ import { applyPreset, type DeepPartial } from "./presets";
 import { CompositeTraceSource, HttpTraceSource, LiveTraceSource, type TraceJournal, type TraceSource } from "@oidc-token-inspect/core";
 import { installPanel } from "./install";
 import { installObserver } from "./observer";
+import { appendAnonymousRunId, generateUuidV4, getOrCreateAnonymousRunId } from "./anonymous";
 
 let teardowns: Array<() => void> | null = null;
 let liveSource: LiveTraceSource | null = null;
 let frozenConfig: Readonly<TokenInspectConfig> | null = null;
+let anonymousRunId: string | undefined;
+
+/**
+ * Controller returned by {@link init}. Beyond teardown/self-test it carries the
+ * anonymous-run helpers: `getLoginUrl` stamps the advertised login URL with the
+ * generated id so the host can round-trip it through the OAuth `state` param.
+ */
+export interface TokenInspectController {
+  teardown: () => void;
+  selfTest: () => ReturnType<typeof selfTest>;
+  getEgressEndpoint: () => string | undefined;
+  /** The advertised login URL with `tii_anon=<id>` appended (no-op without an id). */
+  getLoginUrl: (baseUrl: string) => string;
+  /** The resolved anonymous run id, or undefined when correlation is off. */
+  getAnonymousRunId: () => string | undefined;
+}
 
 // Egress target, captured ONCE at module load and never re-read from a mutable
 // config at runtime. The plugin transmits nothing off-origin in this PoC; this
@@ -59,7 +76,7 @@ function looksLikeProd(): boolean {
  * explicit config always wins over a preset. A preset only takes effect when
  * the user opts into it AND `enabled:true`; it never bypasses the inert default.
  */
-export function init(userConfig: DeepPartial<TokenInspectConfig>): void {
+export function init(userConfig: DeepPartial<TokenInspectConfig>): TokenInspectController | undefined {
   if (teardowns) return; // idempotent
   const cfg: TokenInspectConfig = resolveConfig(userConfig);
   if (!cfg.enabled) return; // INERT
@@ -104,6 +121,16 @@ export function init(userConfig: DeepPartial<TokenInspectConfig>): void {
       : httpSource;
   }
 
+  // Resolve the anonymous (pre-login) run id, if requested. "auto" generates or
+  // reads a UUID v4 from the same Web Storage backend PersistentTraceSource uses
+  // (localStorage by default); a literal string pins a specific id.
+  if (cfg.anonymousRunId) {
+    anonymousRunId = cfg.anonymousRunId === "auto" ? generateOrReadAnonId() : cfg.anonymousRunId;
+    // Tag any in-progress runs that do not already carry a correlationId, so the
+    // composite merge can stitch them to the server run adopted under this id.
+    stampRunsWithCorrelation(liveSource, anonymousRunId);
+  }
+
   const collected: Array<() => void> = [];
   collected.push(installPanel(frozenConfig, source));
 
@@ -113,6 +140,50 @@ export function init(userConfig: DeepPartial<TokenInspectConfig>): void {
   }
 
   teardowns = collected;
+
+  return {
+    teardown,
+    selfTest,
+    getEgressEndpoint,
+    getLoginUrl,
+    getAnonymousRunId: () => anonymousRunId,
+  };
+}
+
+/** Resolve the Web Storage backend used for the anonymous id. Mirrors the
+ * default PersistentTraceSource backend (localStorage). Best-effort: returns
+ * undefined when storage is unavailable (SSR, disabled). */
+function resolveAnonStorage(): Pick<Storage, "getItem" | "setItem"> | undefined {
+  try {
+    return typeof window !== "undefined" ? window.localStorage : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+function generateOrReadAnonId(): string {
+  const storage = resolveAnonStorage();
+  // No storage (SSR/disabled): an ephemeral id still lets the controller advertise
+  // a login URL for this session; it just will not survive a navigation.
+  return storage ? getOrCreateAnonymousRunId(storage) : generateUuidV4();
+}
+
+function stampRunsWithCorrelation(live: LiveTraceSource, id: string): void {
+  for (const run of live.getJournal().runs) {
+    if (!run.correlationId) {
+      live.upsertRun({ ...run, correlationId: id });
+    }
+  }
+}
+
+/**
+ * The advertised login URL with the anonymous run id appended as `tii_anon`.
+ * The host wires this into its login button so the id can be round-tripped
+ * through the OAuth `state` parameter. Without a resolved id the URL is returned
+ * unchanged.
+ */
+export function getLoginUrl(baseUrl: string): string {
+  return anonymousRunId ? appendAnonymousRunId(baseUrl, anonymousRunId) : baseUrl;
 }
 
 /** Tear down everything init() created and reset module state. */
@@ -133,6 +204,7 @@ export function teardown(): void {
     liveSource = null;
     frozenConfig = null;
     egressEndpoint = undefined;
+    anonymousRunId = undefined;
   }
 }
 
@@ -200,7 +272,8 @@ export type { TokenInspectConfig } from "./config";
 export { presets, presetPatches, applyPreset, deepMerge } from "./presets";
 export type { PresetName, DeepPartial } from "./presets";
 export { findIdpFromTraffic, findTokensInStorage, labelLaneByHost } from "./observer/autodetect";
+export { appendAnonymousRunId, generateUuidV4, getOrCreateAnonymousRunId } from "./anonymous";
 
 if (typeof window !== "undefined") {
-  (window as { TokenInspect?: unknown }).TokenInspect = { init, teardown, selfTest };
+  (window as { TokenInspect?: unknown }).TokenInspect = { init, teardown, selfTest, getLoginUrl };
 }
