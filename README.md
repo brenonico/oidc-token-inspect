@@ -1,5 +1,13 @@
 # oidc-token-inspect
 
+[![CI](https://github.com/brenonico/oidc-token-inspect/actions/workflows/ci.yml/badge.svg)](https://github.com/brenonico/oidc-token-inspect/actions/workflows/ci.yml)
+[![@oidc-token-inspect/browser](https://img.shields.io/npm/v/@oidc-token-inspect/browser?label=%40oidc-token-inspect%2Fbrowser&logo=npm)](https://www.npmjs.com/package/@oidc-token-inspect/browser)
+[![@oidc-token-inspect/react](https://img.shields.io/npm/v/@oidc-token-inspect/react?label=%40oidc-token-inspect%2Freact&logo=npm)](https://www.npmjs.com/package/@oidc-token-inspect/react)
+[![@oidc-token-inspect/core](https://img.shields.io/npm/v/@oidc-token-inspect/core?label=%40oidc-token-inspect%2Fcore&logo=npm)](https://www.npmjs.com/package/@oidc-token-inspect/core)
+[![TokenInspect](https://img.shields.io/nuget/v/TokenInspect?label=TokenInspect&logo=nuget)](https://www.nuget.org/packages/TokenInspect)
+[![TokenInspect.AspNetCore](https://img.shields.io/nuget/v/TokenInspect.AspNetCore?label=TokenInspect.AspNetCore&logo=nuget)](https://www.nuget.org/packages/TokenInspect.AspNetCore)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 A didactic, drop-in inspector for OIDC and OAuth 2.0 token flows. Adds a DevTools-style panel to any web app that decodes tokens, draws the sequence between actors (Browser, IdP, API), and shows the variables exchanged at each step. Read-only. Safe-by-default.
 
 Works in three shapes:
