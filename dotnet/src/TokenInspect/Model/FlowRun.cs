@@ -21,4 +21,8 @@ public sealed class FlowRun
     public string? Source { get; init; }
     /// <summary>Steps appended by <see cref="FlowRecorder"/> during the flow's lifetime; <c>init</c> protects the reference, not the contents.</summary>
     public List<TraceStep> Steps { get; init; } = new();
+    /// <summary>Free-form metadata attached to the run, e.g. by
+    /// <see cref="IFlowRecorder.AdoptAnonymousRun"/> when stitching a pre-login run into an
+    /// authenticated session. <c>null</c> until set.</summary>
+    public IDictionary<string, string>? Metadata { get; set; }
 }

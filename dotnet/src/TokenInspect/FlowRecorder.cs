@@ -43,4 +43,25 @@ public sealed class FlowRecorder(ITraceStore store) : IFlowRecorder
         try { store.SaveRunAsync(run.CorrelationKey ?? run.Id, run).GetAwaiter().GetResult(); }
         catch { /* instrumentation must never break the host flow */ }
     }
+    public async Task<FlowRun?> AdoptAnonymousRun(string anonymousRunId, string sessionId, IDictionary<string, string>? metadata = null, CancellationToken ct = default)
+    {
+        FlowRun? run;
+        try { run = await store.GetRunAsync(anonymousRunId, ct).ConfigureAwait(false); }
+        catch { return null; /* instrumentation must never break the host flow */ }
+        if (run is null) return null;
+
+        // Re-key the in-flight run under the authenticated session id, then re-point the run's
+        // own resume key so any step recorded after adoption persists under the session id too.
+        try { await store.RekeyRunAsync(anonymousRunId, sessionId, ct).ConfigureAwait(false); }
+        catch { /* best-effort: a failed re-key still returns the run to the caller */ }
+        run.CorrelationKey = sessionId;
+        if (metadata is { Count: > 0 })
+        {
+            run.Metadata ??= new Dictionary<string, string>();
+            foreach (var kv in metadata) run.Metadata[kv.Key] = kv.Value;
+        }
+        try { await store.SaveRunAsync(sessionId, run, ct).ConfigureAwait(false); }
+        catch { /* instrumentation must never break the host flow */ }
+        return run;
+    }
 }
