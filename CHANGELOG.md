@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Docs: anonymous and pre-login context guidance in `docs/getting-started.md`.
 - `TokenInspect`: `InspectFlow` ambient activity scope (`AsyncLocal`-based) for recording steps without threading `IFlowRecorder` through layers. Existing explicit API is unchanged.
+- `TokenInspect.AspNetCore`: `WithInspectFlow` endpoint metadata and middleware. Endpoints declare a flow via `.WithInspectFlow(...)`; `UseInspectFlow()` opens an ambient `InspectFlow` scope around each request, completing on 2xx/3xx and failing on 4xx/5xx or exceptions.
 - `PersistentTraceSource` in `@oidc-token-inspect/core`: a `TraceSource` backed by `localStorage` that restores the journal on construction so it survives navigations within the same origin. Tokens are redacted from the persisted snapshot by default (opt in with `persistTokens: true`); a TTL and a ring-buffer size cap bound staleness and growth.
 
 ## [0.1.0]
