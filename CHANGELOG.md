@@ -10,3 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Docs: anonymous and pre-login context guidance in `docs/getting-started.md`.
+- `TokenInspect`: `InspectFlow` ambient activity scope (`AsyncLocal`-based) for recording steps without threading `IFlowRecorder` through layers. Existing explicit API is unchanged.
+
+## [0.1.0]
+
+Initial public release.
