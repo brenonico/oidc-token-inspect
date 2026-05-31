@@ -31,3 +31,6 @@ TestResults/
 
 # Packed nupkg outputs
 artifacts/
+
+# Agent orchestration (private — never push)
+.agent/
