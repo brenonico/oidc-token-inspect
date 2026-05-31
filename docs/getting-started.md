@@ -148,6 +148,28 @@ console.log(selfTest());  // { fetchRestored: true, xhrRestored: true, noResidua
 
 If `selfTest()` reports anything but `true` everywhere, file a bug.
 
+## Anonymous and pre-login contexts
+
+Enabling the panel on a marketing or landing page, before any sign-in has happened, has real didactic value. The visitor can watch an anonymous session evolve into an authenticated one, with the pre-login lane and the post-login lane sitting side by side in the same journal. Without this, the journal only starts recording after login, so the anonymous part of the journey is lost and the story begins in the middle.
+
+Minimal config for a public landing page:
+
+```ts
+import { init } from '@oidc-token-inspect/browser';
+
+init({
+  enabled: true,
+  ackExposesTokens: true,
+  preset: 'public-client-spa',
+  persist: true,                 // requires 0.2.0+ (PersistentTraceSource)
+  anonymousRunId: 'auto',        // requires 0.2.0+ (anonymous-run correlation)
+});
+```
+
+There are trade-offs to weigh. The persisted journal stays in same-origin `localStorage`, and tokens are not persisted by default, so the stored record is the flow structure rather than the secrets. The redirect to the identity provider is a visible gap in the sequence: the IdP is intentionally out of scope and the plugin does not instrument it, so the diagram shows the hand-off and then resumes when the browser comes back. Keep in mind that `localStorage` has size limits and shared-tab semantics; the persistence layer enforces a TTL and a ring-buffer cap so the journal cannot grow without bound.
+
+For the deep dive on how anonymous runs are connected to authenticated sessions, see [`docs/journey-continuity.md`](journey-continuity.md).
+
 ## Next steps
 
 - Architecture overview: [architecture.md](architecture.md)
