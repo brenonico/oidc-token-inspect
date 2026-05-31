@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/TokenInspect.AspNetCore/TokenInspect.AspNetCore.csproj" />
+    <Project Path="src/TokenInspect/TokenInspect.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/TokenInspect.AspNetCore.Tests/TokenInspect.AspNetCore.Tests.csproj" />
+    <Project Path="tests/TokenInspect.Tests/TokenInspect.Tests.csproj" />
+  </Folder>
+</Solution>

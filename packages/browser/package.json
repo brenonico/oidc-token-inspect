@@ -1,0 +1,30 @@
+{
+  "name": "@token-inspect/browser",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "main": "dist/token-inspect.umd.cjs",
+  "module": "dist/token-inspect.es.js",
+  "scripts": {
+    "build": "vite build && node scripts/postbuild-sri.mjs",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@token-inspect/core": "*",
+    "@token-inspect/react": "*",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.3",
+    "jsdom": "^25.0.0",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.10",
+    "vitest": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=22 <23"
+  }
+}

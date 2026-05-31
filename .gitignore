@@ -1,0 +1,30 @@
+# Node
+node_modules/
+dist/
+*.tsbuildinfo
+.npm
+.eslintcache
+.cache/
+
+# .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+
+# Test artifacts
+coverage/
+*.lcov
+TestResults/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Env / secrets (never)
+.env
+.env.local
+*.local

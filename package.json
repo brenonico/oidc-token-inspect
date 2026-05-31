@@ -1,0 +1,21 @@
+{
+  "name": "token-inspect",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Didactic token-flow inspector for any OIDC/OAuth2 app. Architecture-agnostic plugin: drop-in client observer, server middleware, or BFF recorder.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/USER/token-inspect"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "test": "npm run test --workspaces --if-present",
+    "build": "npm run build --workspace=@token-inspect/browser --if-present"
+  },
+  "engines": {
+    "node": ">=22 <23"
+  }
+}
