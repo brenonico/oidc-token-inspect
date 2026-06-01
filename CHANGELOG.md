@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Docs: add `docs/instrumentation.md` (three instrumentation levels), `docs/journey-continuity.md` (persistence and anonymous-to-authenticated correlation), and `docs/migration-0.1-to-0.2.md`; document the lane bridge in `docs/architecture.md`, persistence safety in `docs/security.md`, and the v0.2.0 surface in `README.md`.
+- Validated v0.2.0 surface against the KCaaIdP reference application (stepup, logout, user provisioning, anonymous-to-authenticated journey).
 
 ## [0.1.0]
 
