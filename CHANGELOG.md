@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+### Changed
+
+### Fixed
+
+## [0.2.0] - 2026-06-01
+
+### Added
+
 - `TokenInspect.AspNetCore`: `InspectingHttpMessageHandler` and `AddInspectingHandler` to auto-record a request and response step for each outgoing `HttpClient` call when an ambient `InspectFlow` scope is active. Redacts credential headers by default, optionally previews request and response bodies, and is a pass-through outside any scope.
 - Correlate anonymous runs to authenticated sessions via the OAuth `state` parameter. The browser plugin generates and persists an `anonymousRunId` (`init({ anonymousRunId: 'auto' })`) and exposes `getLoginUrl(baseUrl)` to append `tii_anon=<id>` to the login URL; on the server, `IFlowRecorder.AdoptAnonymousRun` re-keys the in-flight run under the new session id via `ITraceStore.RekeyRunAsync`.
 - Docs: anonymous and pre-login context guidance in `docs/getting-started.md`.
