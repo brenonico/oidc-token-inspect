@@ -1,6 +1,6 @@
 {
   "name": "@oidc-token-inspect/browser",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Drop-in browser plugin for Token Inspect. Self-mounts a DevTools-style panel in a closed Shadow DOM. Includes ClientObserver (fetch and XHR pass-through wrap), PKCE flow reconstruction, traceparent correlation (same-origin allowlist).",
   "keywords": [
     "oidc",

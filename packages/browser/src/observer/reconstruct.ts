@@ -379,6 +379,40 @@ export class Reconstructor {
     this.flush(run);
   }
 
+  /**
+   * Build a one-shot api.call run for a non-IdP request that does NOT carry a
+   * Bearer token. Used when `capabilities.observeAllRequests` is on, e.g. BFF
+   * SPAs where the SPA only sees session cookies.
+   */
+  onTokenlessApiCall(event: NetEvent): void {
+    const id = `api.call:${++this.apiCounter}`;
+    const run: FlowRun = {
+      id,
+      flowKind: "api.call",
+      title: `${event.req.method} ${shortUrl(event.req.url)}`,
+      status: event.res.status >= 400 ? "Failed" : "Completed",
+      startedAt: new Date().toISOString(),
+      endedAt: new Date().toISOString(),
+      participants: ["Browser", "API"],
+      steps: [],
+      source: "client",
+    };
+
+    const reqVars: TraceVariable[] = [
+      { name: "method", kind: "Plain", value: event.req.method },
+      { name: "url", kind: "Url", value: event.req.url },
+    ];
+    this.addStep(run, { label: "Request", short: "req", from: "Browser", to: "API", vars: reqVars });
+    this.addStep(run, {
+      label: "Response",
+      short: "res",
+      from: "API",
+      to: "Browser",
+      vars: [{ name: "status", kind: "Plain", value: String(event.res.status) }],
+    });
+    this.flush(run);
+  }
+
   // ── event entry points ─────────────────────────────────────────────────────
 
   /** Handle a redirect callback (initial scan, popstate, hashchange). */
@@ -451,6 +485,11 @@ export class Reconstructor {
         if (auth && /^bearer\s+/i.test(auth)) {
           const bearer = auth.replace(/^bearer\s+/i, "").trim();
           if (bearer) this.onApiCall(event, bearer);
+        } else if (this.config.capabilities?.observeAllRequests) {
+          // 3) `observeAllRequests` (opt-in): record any non-IdP request as a
+          // tokenless api.call. Covers BFF / session-cookie SPAs where the
+          // SPA never sees a Bearer token itself.
+          this.onTokenlessApiCall(event);
         }
       }
     } catch {

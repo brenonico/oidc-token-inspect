@@ -13,6 +13,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+## [0.2.1] - 2026-06-01
+
+### Added
+
+- `@oidc-token-inspect/browser`: new `capabilities.observeAllRequests` flag. When `true`, the client observer records any non-IdP fetch/XHR as `api.call`, even without an `Authorization: Bearer` header. Default `false`. Targets BFF / public-client-spa setups where the SPA only sees session cookies and would otherwise produce an empty journal.
+
+### Fixed
+
+- `@oidc-token-inspect/browser`: `init({ persist: true })` is now wired. When set, the journal mirrors to `localStorage` via `PersistentTraceSource`, so it survives same-origin navigations. Previously the flag was silently ignored; `LiveTraceSource` was always used.
+
 ## [0.2.0] - 2026-06-01
 
 ### Added

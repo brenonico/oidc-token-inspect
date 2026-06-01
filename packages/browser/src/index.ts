@@ -1,12 +1,20 @@
 import { defaultConfig, type TokenInspectConfig } from "./config";
 import { applyPreset, type DeepPartial } from "./presets";
-import { CompositeTraceSource, HttpTraceSource, LiveTraceSource, type TraceJournal, type TraceSource } from "@oidc-token-inspect/core";
+import {
+  CompositeTraceSource,
+  HttpTraceSource,
+  LiveTraceSource,
+  PersistentTraceSource,
+  type TraceJournal,
+  type TraceSource,
+} from "@oidc-token-inspect/core";
 import { installPanel } from "./install";
 import { installObserver } from "./observer";
 import { appendAnonymousRunId, generateUuidV4, getOrCreateAnonymousRunId } from "./anonymous";
 
 let teardowns: Array<() => void> | null = null;
 let liveSource: LiveTraceSource | null = null;
+let persistentSource: PersistentTraceSource | null = null;
 let frozenConfig: Readonly<TokenInspectConfig> | null = null;
 let anonymousRunId: string | undefined;
 
@@ -105,11 +113,32 @@ export function init(userConfig: DeepPartial<TokenInspectConfig>): TokenInspectC
 
   liveSource = new LiveTraceSource();
 
+  // Web-storage-backed mirror of the journal. Created ONLY when the user opts
+  // into `persist: true`. The observer keeps writing to `liveSource` (sync,
+  // idempotent upsert API the observer relies on); a subscriber mirrors every
+  // emission into the persistent source so the panel reads the union of
+  // restored + in-flight data. Idempotent upserts make redundant mirror writes
+  // safe.
+  if (cfg.persist) {
+    const storage = resolveAnonStorage();
+    persistentSource = new PersistentTraceSource(storage ? { storage: storage as Storage } : {});
+    liveSource.subscribe((j) => {
+      for (const run of j.runs) {
+        persistentSource?.recordRun(run);
+      }
+    });
+  }
+
+  // The browser-side primary source (what the panel ultimately reads in pure
+  // observation mode). When `persist: true` it is the persistent mirror, so
+  // the restored history is visible; otherwise it is the in-memory live source.
+  const primary: TraceSource = persistentSource ?? liveSource;
+
   // Resolve the effective TraceSource based on egress + clientObserver:
   //  - egress only           → HttpTraceSource (server modes: BFF/recorder)
-  //  - clientObserver only   → LiveTraceSource (pure browser observation)
+  //  - clientObserver only   → primary (LiveTraceSource or PersistentTraceSource)
   //  - both                  → CompositeTraceSource merged by correlationId
-  let source: TraceSource = liveSource;
+  let source: TraceSource = primary;
   if (egressEndpoint) {
     const httpClient = {
       get: <T = TraceJournal>(path: string): Promise<T> =>
@@ -117,7 +146,7 @@ export function init(userConfig: DeepPartial<TokenInspectConfig>): TokenInspectC
     };
     const httpSource = new HttpTraceSource(httpClient, egressEndpoint);
     source = cfg.capabilities?.clientObserver
-      ? new CompositeTraceSource([liveSource, httpSource])
+      ? new CompositeTraceSource([primary, httpSource])
       : httpSource;
   }
 
@@ -202,6 +231,7 @@ export function teardown(): void {
   } finally {
     teardowns = null;
     liveSource = null;
+    persistentSource = null;
     frozenConfig = null;
     egressEndpoint = undefined;
     anonymousRunId = undefined;
