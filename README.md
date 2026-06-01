@@ -30,6 +30,16 @@ init({
 
 That is the full integration. The plugin auto-mounts a panel in a closed Shadow DOM, observes the browser's OAuth/OIDC traffic, and gives you a `☰` toggle.
 
+## What is new in v0.2.0
+
+- Ambient `InspectFlow.Begin` scope, so nested code records steps without threading the recorder
+- Declarative `.WithInspectFlow(...)` on ASP.NET endpoints
+- Auto-instrumentation of outgoing HTTP via `AddInspectingHandler(...)`
+- Journal persistence across same-origin navigations (`PersistentTraceSource`)
+- Anonymous-to-authenticated session correlation via the OAuth state parameter
+
+See [docs/instrumentation.md](docs/instrumentation.md) and [docs/journey-continuity.md](docs/journey-continuity.md).
+
 ## Why
 
 OIDC and OAuth are easier taught with examples than with prose. A new developer reading about PKCE understands faster when they can see the `code_verifier` in `sessionStorage`, the `code_challenge` in the redirect URL, and the `access_token` claims that come back. This plugin shows exactly that, without changing the host's behaviour.
