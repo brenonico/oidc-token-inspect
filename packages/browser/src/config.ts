@@ -10,6 +10,14 @@ export interface TokenInspectConfig {
     clientObserver: boolean;
     storageScan: boolean;
     correlation: { enabled: boolean; header: string; allowlist: string[] };
+    /**
+     * When `true`, the observer records every fetch/XHR to a non-IdP host as
+     * `api.call`, regardless of whether the request carries an `Authorization`
+     * header. Off by default: the standard `api.call` path still requires a
+     * Bearer token. Enable for BFF / session-cookie SPAs where you want to see
+     * what the client is doing without any token in the request.
+     */
+    observeAllRequests?: boolean;
   };
   idp?: { issuer?: string };
   apis?: Array<{ match: string; lane: string }>;
